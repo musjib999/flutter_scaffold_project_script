@@ -1,0 +1,266 @@
+#!/bin/bash
+
+echo WELCOME TO FLUTTER STARTER PROJECT CREATOR
+
+sleep 3
+
+while true; do
+
+read -p "Do you have flutter installed in your computer?(yes/no)" options
+# echo Make sure you have flutter installed on your Mac/PC 
+case $options in
+    yes ) echo Project initializing!!!
+        break;;
+    no ) echo Make sure you have flutter installed in your computer before you can run this script
+        exit;;
+    * ) echo Invalid response 
+esac
+
+done
+
+echo What\'s the name of your flutter project?
+
+        read name;
+
+        echo Where do you want to save your project?
+
+        sleep 2
+
+        ls
+
+        read directory;
+
+        cd $directory
+
+        flutter create $name
+
+        echo $name flutter project created
+
+        cd $name
+
+        echo Installing necessarry packages
+
+        flutter pub add http
+        flutter pub add dartz
+        flutter pub add argon_buttons_flutter
+
+        echo Installing Completed
+
+        sleep 2
+
+        echo Setting up project
+
+        cd lib
+
+        mkdir core
+        mkdir module
+        mkdir shared
+        mkdir data
+        touch index.dart
+
+        echo "export 'core/core.dart'; "  >> index.dart
+        echo "export 'module/module.dart'; "  >> index.dart
+        echo "export 'shared/shared.dart'; "  >> index.dart
+        echo "export 'data/data.dart'; "  >> index.dart
+
+        cd core
+        mkdir services
+        mkdir injector
+        touch core.dart
+
+
+            cd services
+            touch services.dart
+
+            cd ..
+
+            cd injector
+            touch injector.dart
+
+            cd ..
+        echo "export 'services/services.dart'; "  >> core.dart
+        echo "export 'injector/injector.dart'; "  >> core.dart
+
+        cd ..
+
+        cd module
+        touch module.dart
+
+        cd ..
+
+        cd data
+        touch data.dart
+        mkdir sources
+        mkdir models
+
+
+            cd sources
+            touch api_data.dart
+            touch local_data.dart
+            touch sources.dart
+            echo "import 'dart:convert';
+import 'dart:io';
+
+import 'package:dartz/dartz.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/models.dart';
+
+class ApiData {
+Future<Either<ApiResponseModel?, ErrorModel>> getRequest(String url) async {
+    ApiResponseModel? apiResponse;
+    try {
+    Uri uri = Uri.parse(url);
+    http.Response response = await http.get(
+        uri,
+    );
+    if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        Left(
+        apiResponse = ApiResponseModel(
+            status: data['status'],
+            data: data['data'],
+            message: data['message'],
+        ),
+        );
+    } else {
+        final data = jsonDecode(response.body);
+        apiResponse = ApiResponseModel(
+        status: data['status'],
+        data: data['data'],
+        message: data['message'],
+        );
+    }
+    } on SocketException catch (_) {
+    return Right(ErrorModel('Please check your internet connection'));
+    }
+    return Left(apiResponse);
+}
+
+Future<Either<ApiResponseModel?, ErrorModel>> postRequest(String url, {Object? body}) async {
+    ApiResponseModel? apiResponse;
+    try {
+    Uri uri = Uri.parse(url);
+    http.Response response = await http.post(
+        uri,
+        body: jsonEncode(body),
+    );
+    if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        Left(
+        apiResponse = ApiResponseModel(
+            status: data['status'],
+            data: data['data'],
+            message: data['message'],
+        ),
+        );
+    } else {
+        final data = jsonDecode(response.body);
+        apiResponse = ApiResponseModel(
+        status: data['status'],
+        data: data['data'],
+        message: data['message'],
+        );
+    }
+    } on SocketException catch (_) {
+    return Right(ErrorModel('Please check your internet connection'));
+    }
+    return Left(apiResponse);
+}
+}
+
+ApiData api = ApiData();
+">> api_data.dart 
+            echo "export 'api_data.dart'; "  >> sources.dart
+            echo "export 'local_data.dart'; "  >> sources.dart
+
+            cd ..
+            cd models
+            touch api_response_model.dart
+            touch error_model.dart
+            touch models.dart
+
+            echo "class ApiResponseModel {
+  final dynamic data;
+  final String status;
+  final String message;
+
+  ApiResponseModel(
+      {required this.data, required this.status, required this.message});
+
+  factory ApiResponseModel.fromJson(Map<String, dynamic> data) =>
+      ApiResponseModel(
+        data: data,
+        message: data['message'] as String,
+        status: data['status'] as String,
+      );
+
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "data": data,
+    "message": message,
+  };
+}
+" >> api_response_model.dart
+            echo "class ErrorModel {
+  final String error;
+  ErrorModel(this.error);
+}" >> error_model.dart
+            echo "export 'api_response_model.dart';" >> models.dart
+            echo "export 'error_model.dart';" >> models.dart
+            cd ..
+        
+        echo "export 'sources/sources.dart'; "  >> data.dart
+        echo "export 'models/models.dart'; "  >> data.dart
+        
+        cd ..
+
+        cd shared
+        mkdir themes
+        mkdir global
+        mkdir widgets
+        touch shared.dart
+
+            cd themes
+            touch colors.dart
+            touch app_themes.dart
+            touch themes.dart
+
+            echo "export 'colors.dart'; "  >> themes.dart
+            echo "export 'app_themes.dart'; "  >> themes.dart
+
+            cd ..
+
+            cd global
+            touch global.dart
+
+            cd ..
+
+            cd widgets
+            mkdir buttons
+            mkdir forms
+            touch widgets.dart
+
+                cd buttons
+                touch buttons.dart
+
+                cd ..
+
+                cd forms
+                touch forms.dart
+
+                cd ..
+            
+            echo "export 'buttons/buttons.dart'; "  >> widgets.dart
+            echo "export 'forms/forms.dart'; "  >> widgets.dart
+        
+        cd ..
+
+        echo "export 'global/global.dart'; "  >> shared.dart
+        echo "export 'themes/themes.dart'; "  >> shared.dart
+        echo "export 'widgets/widgets.dart'; "  >> shared.dart
+
+        sleep 3
+
+        echo Project setup successfully
