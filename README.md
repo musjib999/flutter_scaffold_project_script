@@ -18,7 +18,7 @@
    
  ### Packages
  
-     This script install some packages which are:
-     * [http package](https://pub.dev/packages/http)
-     * [dartz package](https://pub.dev/packages/dartz)
-     * [argon button](https://pub.dev/packages/argon_buttons_flutter)
+  This script install some packages which are:
+  * [http package](https://pub.dev/packages/http)
+  * [dartz package](https://pub.dev/packages/dartz)
+  * [argon button](https://pub.dev/packages/argon_buttons_flutter)
